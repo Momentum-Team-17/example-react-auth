@@ -1,16 +1,36 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import axios from 'axios'
 import Error from './Error'
 
-const Login = ({setLoggedInUser, setToken }) => {
+const Login = ({setAuth}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
 
+
+  // when a user submits the form
+  // make a request to the API to login
+  // POST http://localhost:8000/auth/token/login
+  // send JSON credentials for username and password
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log(event)
+    console.log(username)
+    console.log(password)
+    axios.post('http://localhost:8000/auth/token/login', {
+      username: username,
+      password: password
+    }).then(res => {
+      setAuth(res.data.auth_token, username)
+      // set state for token
+    })
+  }
+
   return (
     <div className="max-w-lg py-8 login-form">
       <h2 className='mb-4 text-2xl font-bold'>Log In</h2>
-      <form onFocus={() =>  setError(null)} className="grid grid-cols-1 gap-6">
+      <form onFocus={() => setError(null)} onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
         <div>
           <label className="block" htmlFor="username"><span className="text-gray-700">username</span></label>
           <input
