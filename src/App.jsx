@@ -2,11 +2,12 @@ import './App.css'
 import Login from './components/Login'
 import { useState } from 'react'
 import Rabbit from './components/Rabbit'
+import useLocalStorageState from 'use-local-storage-state'
 
 function App() {
-  const [token, setToken] = useState(null)
-  const [username, setUsername] = useState('')
-  const loggedIn = token
+  const [token, setToken] = useLocalStorageState('rabbitToken', '')
+  const [username, setUsername] = useLocalStorageState('rabbitUsername', '')
+
 
   const setAuth = (token, username) => {
     setToken(token)
@@ -15,7 +16,7 @@ function App() {
 
   return (
     <div className="m-8 App">
-      {loggedIn ? <Rabbit token={token} /> : <Login setAuth={setAuth} />}
+      {token ? <Rabbit token={token} /> : <Login setAuth={setAuth} />}
     </div>
   )
 }
