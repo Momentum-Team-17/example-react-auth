@@ -1,12 +1,13 @@
 import { useState, useRef } from 'react'
 import axios from 'axios'
 import Error from './Error'
+import { useNavigate } from 'react-router-dom'
 
 const Login = ({setAuth}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
-
+  const navigate = useNavigate()
 
   // when a user submits the form
   // make a request to the API to login
@@ -23,7 +24,7 @@ const Login = ({setAuth}) => {
       password: password
     }).then(res => {
       setAuth(res.data.auth_token, username)
-      // set state for token
+      navigate(-1)
     })
   }
 
